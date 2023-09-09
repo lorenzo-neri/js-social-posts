@@ -115,6 +115,7 @@ generateLikeBtn(likeBtn);
 //Creo funzione per generare il markup
 function generateMarkupPost(posts) {
 
+    
     //svuoto pagina prima di ricreare il markup
     containerEl.innerHTML = '';
 
