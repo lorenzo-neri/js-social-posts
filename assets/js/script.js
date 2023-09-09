@@ -121,7 +121,7 @@ function generateMarkupPost(posts) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#"
+                        <a class="like-button  js-like-button" href="javascript:;"
                             data-postid="${post.id}">
                             <i class="like-button__icon fas fa-thumbs-up"
                                 aria-hidden="true"></i>
