@@ -33,7 +33,8 @@ const posts = [
             "image": "https://unsplash.it/300/300?image=15"
         },
         "likes": 80,
-        "created": "2021-06-25"
+        "created": "2021-06-25",
+        classLike: ''
     },
     {
         "id": 2,
@@ -44,7 +45,8 @@ const posts = [
             "image": "https://unsplash.it/300/300?image=10"
         },
         "likes": 120,
-        "created": "2021-09-03"
+        "created": "2021-09-03",
+        classLike: ''
     },
     {
         "id": 3,
@@ -55,7 +57,8 @@ const posts = [
             "image": "https://unsplash.it/300/300?image=20"
         },
         "likes": 78,
-        "created": "2021-05-15"
+        "created": "2021-05-15",
+        classLike: ''
     },
     {
         "id": 4,
@@ -66,7 +69,8 @@ const posts = [
             "image": null
         },
         "likes": 56,
-        "created": "2021-04-03"
+        "created": "2021-04-03",
+        classLike: ''
     },
     {
         "id": 5,
@@ -77,7 +81,8 @@ const posts = [
             "image": "https://unsplash.it/300/300?image=29"
         },
         "likes": 95,
-        "created": "2021-03-05"
+        "created": "2021-03-05",
+        classLike: ''
     }
 ];
 
@@ -91,6 +96,21 @@ Milestone 2
 Prendendo come riferimento il layout di esempio presente nell'html, stampiamo i post del nostro feed.
 */
 
+//invoco la funzione per generare i post (e incrocio le dita)
+generateMarkupPost(posts);
+
+
+/* 
+Milestone 3
+Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo. Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
+*/
+
+let likeBtn = document.querySelectorAll('.like-button'); //!!!qSA restituisce un array!!!
+console.log(likeBtn);
+
+generateLikeBtn(likeBtn);
+
+/*######################## FUNCTIONS ########################*/
 
 //Creo funzione per generare il markup
 function generateMarkupPost(posts) {
@@ -121,7 +141,7 @@ function generateMarkupPost(posts) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="javascript:;"
+                        <a class="like-button js-like-button ${post.classLike}" href="javascript:;"
                             data-postid="${post.id}">
                             <i class="like-button__icon fas fa-thumbs-up"
                                 aria-hidden="true"></i>
@@ -143,10 +163,75 @@ function generateMarkupPost(posts) {
 
 };
 
-//invoco la funzione per generare i post (e incrocio le dita)
-generateMarkupPost(posts);
+function generateLikeBtn(likeBtn) {
 
-/* 
-Milestone 3
-Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del bottone e incrementiamo il counter dei likes relativo. Salviamo in un secondo array gli id dei post ai quali abbiamo messo il like.
-*/
+    likeBtn.forEach(btn => {
+
+        btn.addEventListener("click", (e) => {
+
+            //se non contiene .like-button--liked
+            if (!btn.classList.contains('like-button--liked')) {
+
+                //devo dirgli a quale post interessarsi (id)
+                const postId = btn.getAttribute('data-postid');
+                console.log(postId);
+
+                for (const key in posts) {
+
+                    //se sono uguali
+                    if (posts[key]['id'] == postId) {
+
+                        //pusha id in idArray
+                        idArray.push(postId);
+                        console.log(idArray);
+
+                        //incremento di 1 il valore di likes 
+                        posts[key]['likes']++;
+
+                        //aggiungo .like-button--liked a likeClass
+                        posts[key]['classLike'] = '.like-button--liked';
+                        console.log(btn);
+                        console.log(posts[key][likes]);
+
+                        //rigenero il markup aggiornato
+                        generateMarkupPost(posts);
+                        let likeBtn = document.querySelectorAll('.like-button');
+                        generateLikeBtn(likeBtn);
+                    }
+                }
+
+                //se contiene .like-button--liked
+            } else if (btn.classList.contains('like-button--liked')) {
+
+                //id post
+                const postId = btn.getAttribute('data-postid');
+                console.log(postId);
+
+                for (const key in posts) {
+
+                    //se sono uguali
+                    if (posts[key]['id'] == postId) {
+
+                        //filtro da idArray i valori diversi da postId
+                        const filteredIds = idArray.filter(id => { return id != postId });
+
+                        //decremento di 1 il valore di likes 
+                        posts[key]['likes']--;
+
+                        //rimuovo .like-button--liked a likeClass
+                        posts[key]['classLike'] = '';
+                        console.log(btn);
+                        console.log(posts[key][likes]);
+
+                        //rigenero il markup aggiornato
+                        generateMarkupPost(posts);
+                        let likeBtn = document.querySelectorAll('.like-button');
+                        generateLikeBtn(likeBtn);
+                    }
+
+                }
+            }
+
+        });
+    });
+};
