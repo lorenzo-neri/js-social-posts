@@ -130,7 +130,7 @@ function generateMarkupPost(posts) {
             let months;
             months = (present.getFullYear() - datePostCreated.getFullYear()) * 12;
             months -= (present.getMonth());
-            months += (present.getMonth());
+            months += (datePostCreated.getMonth());
             return months <= 0 ? 0 : months;
         };
 
@@ -142,18 +142,6 @@ function generateMarkupPost(posts) {
 
         let lettersProfilePic = initialsLetters[0].charAt(0) + initialsLetters[1].charAt(0)
 
-        //DIVIDO IL NOME DELL'AUTORE PRENDENDO LO SPAZIO COME DIVISORE IN UN ARRAY CONTENENTE NOME E COGNOME
-        /* const authorSplit = card.author.name.split(" ");
- 
-         //LE PRIME LETTERE SONO IL CARATTERE 0 DELL'INDICE 0 e 1 DI authorSplit
-         const profPicLetters = authorSplit[0].charAt(0) + authorSplit[1].charAt(0); 
- ${card.author.image == null
- 
-                 ? `<div class="profile-pic-default"><span>${profPicLetters}</span></div>`
- 
-                 : `<img class="profile-pic" src="${card.author.image}" alt="${card.author.name}">`
-             }
- */
         const postMarkup =
             `<div id="${post.id}" class="post">
             <div class="post__header">
@@ -251,6 +239,9 @@ function generateLikeBtn(likeBtn) {
 
                         //filtro da idArray i valori diversi da postId
                         const filteredIds = idArray.filter(id => { return id != postId });
+
+                        idArray = filteredIds;
+                        console.log("idarray after filter", idArray);
 
                         //decremento di 1 il valore di likes 
                         posts[key]['likes']--;
