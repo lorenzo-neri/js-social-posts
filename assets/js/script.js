@@ -115,6 +115,9 @@ generateLikeBtn(likeBtn);
 //Creo funzione per generare il markup
 function generateMarkupPost(posts) {
 
+    //svuoto pagina prima di ricreare il markup
+    containerEl.innerHTML = '';
+
     posts.forEach(post => {
 
         /* TODO post-meta__time */
@@ -189,9 +192,9 @@ function generateLikeBtn(likeBtn) {
                         posts[key]['likes']++;
 
                         //aggiungo .like-button--liked a likeClass
-                        posts[key]['classLike'] = '.like-button--liked';
+                        posts[key]['classLike'] = 'like-button--liked';
                         console.log(btn);
-                        console.log(posts[key][likes]);
+                        console.log(posts[key]['likes']);
 
                         //rigenero il markup aggiornato
                         generateMarkupPost(posts);
@@ -221,7 +224,7 @@ function generateLikeBtn(likeBtn) {
                         //rimuovo .like-button--liked a likeClass
                         posts[key]['classLike'] = '';
                         console.log(btn);
-                        console.log(posts[key][likes]);
+                        console.log(posts[key]['likes']);
 
                         //rigenero il markup aggiornato
                         generateMarkupPost(posts);
