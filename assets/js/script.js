@@ -13,9 +13,6 @@ id del post, numero progressivo da 1 a n
 Non è necessario creare date casuali
 Per le immagini va bene utilizzare qualsiasi servizio di placeholder ad es. Unsplash (https://unsplash.it/300/300?image=<id>)
 
-BONUS
-Formattare le date in formato italiano (gg/mm/aaaa)
-Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF).
 Al click su un pulsante "Mi Piace" di un post, se abbiamo già cliccato dobbiamo decrementare il contatore e cambiare il colore del bottone.
 
 Nota (bonus extra) - super opzionale:
@@ -115,26 +112,62 @@ generateLikeBtn(likeBtn);
 //Creo funzione per generare il markup
 function generateMarkupPost(posts) {
 
-    
+
     //svuoto pagina prima di ricreare il markup
     containerEl.innerHTML = '';
 
     posts.forEach(post => {
 
-        /* TODO post-meta__time */
+        /* TODO post-meta__time */ //fatto
+        /* BONUS
+        Formatto le date in formato italiano(gg / mm / aaaa) */
+        let datePostCreated = new Date(post.created);
+        let italianDate = `${datePostCreated.getDate()}/${datePostCreated.getMonth() + 1}/${datePostCreated.getFullYear()}`;
+        //data odierna
+        let today = new Date();
 
+        function monthsAgo(present, datePostCreated) {
+            let months;
+            months = (present.getFullYear() - datePostCreated.getFullYear()) * 12;
+            months -= (present.getMonth());
+            months += (present.getMonth());
+            return months <= 0 ? 0 : months;
+        };
+
+        let monthsCreated = `(${monthsAgo(today, datePostCreated)} mesi fa)`;
+
+        /* Bonus
+        Gestire l'assenza dell'immagine profilo con un elemento di fallback che contiene le iniziali dell'utente (es. Luca Formicola > LF). */
+        let initialsLetters = post.author.name.split(' ');
+
+        let lettersProfilePic = initialsLetters[0].charAt(0) + initialsLetters[1].charAt(0)
+
+        //DIVIDO IL NOME DELL'AUTORE PRENDENDO LO SPAZIO COME DIVISORE IN UN ARRAY CONTENENTE NOME E COGNOME
+        /* const authorSplit = card.author.name.split(" ");
+ 
+         //LE PRIME LETTERE SONO IL CARATTERE 0 DELL'INDICE 0 e 1 DI authorSplit
+         const profPicLetters = authorSplit[0].charAt(0) + authorSplit[1].charAt(0); 
+ ${card.author.image == null
+ 
+                 ? `<div class="profile-pic-default"><span>${profPicLetters}</span></div>`
+ 
+                 : `<img class="profile-pic" src="${card.author.image}" alt="${card.author.name}">`
+             }
+ */
         const postMarkup =
             `<div id="${post.id}" class="post">
             <div class="post__header">
                 <div class="post-meta">
                     <div class="post-meta__icon">
-                        <img class="profile-pic"
-                            src="${post.author.image}"
-                            alt="${post.author.name}">
+
+                        ${post.author.image == null ? `<div class="profile-pic-default"><span>${lettersProfilePic}</span></div>` : `<img class="profile-pic"
+                        src="${post.author.image}"
+                        alt="${post.author.name}">`}
+
                     </div>
                     <div class="post-meta__data">
                         <div class="post-meta__author">${post.author.name}</div>
-                        <div class="post-meta__time">4 mesi fa</div>
+                        <div class="post-meta__time">${italianDate} ${monthsCreated}</div>
                     </div>
                 </div>
             </div>
